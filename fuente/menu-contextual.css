@@ -1,0 +1,125 @@
+:root{
+    --animacion-corta: 150ms;
+    --animacion-mediana: 350ms;
+    --animacion-larga: 700ms;
+    --animacion-x-larga: 1500ms;
+
+    --color-gris: #97999e;
+    --color-gris-oscuro: #353535;
+    --color-gris-claro: #f2f2f2;    
+    
+
+    --color-negro: #090909;
+    --color-negro-80: #090909BB;
+    --color-negro-50: #09090985;
+    --color-negro-25: #09090960;
+    --color-negro-10: #09090930;
+
+
+
+    --color-acento-60: #04686590;
+    --color-acento: #046865;
+    --color-blanco: #fefefe;
+    --color-blanco-50: #fefefe85;
+    --color-blanco-25: #fefefe60;
+    --color-blanco-10: #fefefe20;
+    
+    --relacion-aspecto: 1.78;
+    --margen-largo: 5.00;
+    --margen-corto: 8.89;
+    
+    --fuente-encabezados: 'Gopher','Franklin Gothic Medium', 'Arial Narrow', 'Arial', sans-serif;
+    --fuente-texto: 'Roc Grotesk','Franklin Gothic Medium', 'Arial Narrow', 'Arial', sans-serif;
+}
+
+@property --mouse-x{
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+@property --mouse-y{
+    syntax: "<number>";
+    inherits: true;
+    initial-value: 0;
+}
+
+
+menu-contextual{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    padding: 1em 0em 1em 0em;
+    min-height: 5vh;
+    min-width: 150px;
+    width: fit-content;
+    transform-origin: top left;
+    transition: 
+        transform var(--animacion-mediana) ease-in-out, 
+        scale var(--animacion-mediana) ease-in-out, 
+        opacity var(--animacion-mediana) ease-in-out
+        ;
+    scale: 1;
+    opacity: 1;
+    
+    &.oculto{
+        opacity: 0;
+        scale: 0;
+    }
+    background-color: var(--color-blanco-10);
+    backdrop-filter: blur(10px);
+    border-radius: 1em;
+    font-size: .75em;
+    & > *{
+        padding: 1em 5em .5em 2.5em;
+    }
+    & i{
+        opacity: .3;
+    }
+    & > hr{
+        border-bottom: solid 1px var(--color-acento-60);
+        margin: 5px 0px;
+        padding: 0px;
+    }
+    & > opcion-menu{
+        padding: 0px;
+        min-width: max-content;
+        &:hover{
+            background-color: var(--color-blanco-10);
+        }
+        & > button{
+            padding: 1em 5em 1em 2.5em;
+            display: flex;
+            gap: 50px;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+
+            
+            text-align: left;
+            background-color: transparent;
+            color: inherit;
+            border: none;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+
+            & > p{
+                display: flex;
+                align-items: center;
+                gap: .5em;
+                & > span{
+                    font-size: 10px;
+                }
+            }
+        }
+    }    
+}
+
+opcion-menu[sub-menu] > menu-contextual{
+    backdrop-filter: blur(25px);
+    background-color: var(--color-negro-80);
+
+    & > opcion-menu p {
+        font-size: 1.25em;
+    }
+}
+
