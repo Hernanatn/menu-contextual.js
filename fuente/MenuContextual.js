@@ -197,15 +197,11 @@ window.customElements.define('opcion-menu',OpcionMenu)
 
 window.addEventListener("popstate",
     e => {
-        console.log("movido",e)
         document.querySelectorAll("opcion-menu").forEach(
             o => {
                 const largo = o.children.length 
                 if (largo <= 1) {return}
                 for (let i = 0; i < largo; i++) {
-                    console.log("l: ",largo, o.children.length)
-                    console.log("i: ",i)
-                    console.log("c: ",o.children[0])
                     o.children[0].remove();
                 }
             }
