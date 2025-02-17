@@ -1,12 +1,14 @@
-
-
 class OpcionMenu extends HTMLElement{
     constructor(){
         super();
         this._internals = this.attachInternals();
+        this._inicializado = false
     }
 
     connectedCallback(){
+
+        if (this._inicializado) return;
+        this._inicializado = true
                 
         let boton;
         var iComando = document.createElement("i")
@@ -68,6 +70,10 @@ class OpcionMenu extends HTMLElement{
         
         this.appendChild(boton);
     }
+
+    disconnectedCallback() {
+        this._inicializado = false
+    }
 }
 
 class MenuContextual extends HTMLElement{
@@ -77,9 +83,13 @@ class MenuContextual extends HTMLElement{
     constructor(){
         super();
         this._internals = this.attachInternals();
+        this._inicializado = false
     }
 
     connectedCallback() {
+
+        if (this._inicializado) return;
+        this._inicializado = true;
 
         this.classList.add('oculto');  
 
@@ -87,7 +97,7 @@ class MenuContextual extends HTMLElement{
         titulo.innerHTML=`${this.getAttribute('titulo') || ''}`;
         this.appendChild(titulo);
 
-        document.addEventListener('click', e => {
+        document.addEventListener('click', this._manejadorClick = e => {
             document.querySelectorAll('menu-contextual').forEach(
                 e => {
                     e.classList.add('oculto');
@@ -100,7 +110,7 @@ class MenuContextual extends HTMLElement{
             this.style.left="calc( 100% + 1em )"
         }
 
-        this.parentElement.addEventListener('contextmenu', (e) => { 
+        this.parentElement.addEventListener('contextmenu', this._manejadorMenuContextual = (e) => { 
             e.preventDefault();
             document.querySelectorAll('menu-contextual').forEach(
                 e => {
@@ -177,8 +187,12 @@ class MenuContextual extends HTMLElement{
           }*/
 
     }
-    
     disconnectedCallback() {
+        document.removeEventListener('click', this._manejadorClick);
+        if (this.parentElement) {
+            this.parentElement.removeEventListener('contextmenu', this._manejadorMenuContextual);
+        }
+        this._inicializado = false
     }
       
     adoptedCallback() {
@@ -195,6 +209,7 @@ class MenuContextual extends HTMLElement{
 window.customElements.define('menu-contextual',MenuContextual)
 window.customElements.define('opcion-menu',OpcionMenu)
 
+/*
 window.addEventListener("popstate",
     e => {
         document.querySelectorAll("opcion-menu").forEach(
@@ -208,3 +223,4 @@ window.addEventListener("popstate",
         )
     }
 )
+*/
